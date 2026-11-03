@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1f44" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Access Control" />
+  <title>Smart Access Control</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Sidebar (laptop) / Bottom nav (phone) -->
+    <nav class="nav" aria-label="Main navigation">
+      <div class="brand">
+        <span class="brand-logo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z"/></svg>
+        </span>
+        <span class="brand-text">Smart<br />Access Control</span>
+      </div>
+
+      <button class="nav-btn active" data-view="home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11z"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-btn" data-view="device">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM8 19h8M12 15v4"/></svg>
+        <span>Device</span>
+      </button>
+      <button class="nav-btn" data-view="history">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>History</span>
+      </button>
+    </nav>
+
+    <main class="content">
+      <div class="demo-banner" role="status">
+        <span class="dot"></span> DEMO MODE &mdash; no real hardware is connected
+      </div>
+
+      <!-- ============ HOME ============ -->
+      <section id="view-home" class="view active">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Welcome back, Owner</p>
+            <h1>Smart Access Control</h1>
+          </div>
+          <span id="conn-pill" class="pill pill-online">
+            <span class="dot"></span><span id="conn-pill-text">Pi Online (simulated)</span>
+          </span>
+        </header>
+
+        <div class="grid">
+          <article class="card door-card" id="door-card" data-state="locked">
+            <p class="card-label">Front Door</p>
+
+            <div class="door-icon" aria-hidden="true">
+              <svg id="lock-svg" viewBox="0 0 64 64">
+                <path id="shackle" class="shackle" d="M20 28V20a12 12 0 0 1 24 0v8" />
+                <rect x="12" y="28" width="40" height="28" rx="7" class="lock-body" />
+                <circle cx="32" cy="41" r="4" class="lock-keyhole" />
+                <rect x="30.5" y="43" width="3" height="7" rx="1.5" class="lock-keyhole" />
+              </svg>
+            </div>
+
+            <h2 id="door-status" class="door-status">LOCKED</h2>
+            <p id="door-sub" class="muted">Your door is secure.</p>
+
+            <button id="open-btn" class="btn btn-primary btn-xl">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg>
+              Open Door
+            </button>
+            <button id="lock-btn" class="btn btn-secondary" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Lock Door
+            </button>
+            <p class="tiny muted">Demo Mode: actions are simulated only.</p>
+          </article>
+
+          <div class="stack">
+            <article class="card">
+              <p class="card-label">Quick Status</p>
+              <ul class="status-list">
+                <li><span>Raspberry Pi</span><strong id="home-pi">Online (simulated)</strong></li>
+                <li><span>Mode</span><strong>Demo</strong></li>
+                <li><span>Last action</span><strong id="home-last">None yet</strong></li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <p class="card-label">Recent Activity</p>
+              <ul id="home-recent" class="history-list compact"></ul>
+              <button class="link-btn" data-view="history">View all history &rarr;</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DEVICE ============ -->
+      <section id="view-device" class="view">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Connection</p>
+            <h1>Device Status</h1>
+          </div>
+        </header>
+
+        <article class="card">
+          <div class="device-row">
+            <div class="device-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h2M7 14h2M13 10h4"/></svg>
+            </div>
+            <div class="device-info">
+              <h3>Raspberry Pi Controller</h3>
+              <p id="device-text" class="muted">Simulated connection</p>
+            </div>
+            <span id="device-pill" class="pill pill-online"><span class="dot"></span>Online</span>
+          </div>
+
+          <ul class="status-list">
+            <li><span>Connection type</span><strong>Wi-Fi (simulated)</strong></li>
+            <li><span>Device address</span><strong id="device-address">Not configured</strong></li>
+            <li><span>Last checked</span><strong id="device-checked">&mdash;</strong></li>
+            <li><span>Mode</span><strong>DEMO MODE</strong></li>
+          </ul>
+
+          <div class="btn-row">
+            <button id="check-btn" class="btn btn-primary">Check Connection</button>
+            <button id="toggle-conn-btn" class="btn btn-secondary">Simulate Offline</button>
+          </div>
+        </article>
+
+        <article class="card note">
+          <h3>Heads up</h3>
+          <p class="muted">
+            This screen shows a <strong>simulated</strong> status. Real communication with the
+            Raspberry Pi will be added after the hardware is ready. See the integration
+            notes in <code>script.js</code>.
+          </p>
+        </article>
+      </section>
+
+      <!-- ============ HISTORY ============ -->
+      <section id="view-history" class="view">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Activity log</p>
+            <h1>Access History</h1>
+          </div>
+          <button id="clear-btn" class="btn btn-secondary btn-sm">Clear</button>
+        </header>
+
+        <article class="card">
+          <ul id="history-list" class="history-list"></ul>
+          <p id="history-empty" class="muted center" hidden>No activity yet. Try opening the door from Home.</p>
+        </article>
+        <p class="tiny muted center">History is stored only in this browser.</p>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
