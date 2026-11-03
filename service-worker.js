@@ -1,6 +1,6 @@
 // Simple offline cache for the app shell.
 // Bump CACHE_NAME whenever you change any file, so phones pick up the update.
-const CACHE_NAME = "sac-cache-v1";
+const CACHE_NAME = "sac-cache-v2";
 const FILES = [
   "./",
   "./index.html",

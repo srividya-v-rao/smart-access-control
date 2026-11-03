@@ -34,7 +34,7 @@ const DeviceAPI = {
   async openDoor() {
     if (CONFIG.DEMO_MODE) {
       await delay(700);
-      if (!this.simulatedOnline) throw new Error("Raspberry Pi is offline (simulated)");
+      if (!this.simulatedOnline) throw new Error("Raspberry Pi is offline");
       return { ok: true };
     }
     // FUTURE: real command
@@ -47,7 +47,7 @@ const DeviceAPI = {
   async lockDoor() {
     if (CONFIG.DEMO_MODE) {
       await delay(500);
-      if (!this.simulatedOnline) throw new Error("Raspberry Pi is offline (simulated)");
+      if (!this.simulatedOnline) throw new Error("Raspberry Pi is offline");
       return { ok: true };
     }
     // FUTURE: real command (may not be needed if the Pi auto-relocks)
@@ -102,18 +102,18 @@ function toast(message, type = "success") {
 function renderDoor() {
   $("door-card").dataset.state = doorLocked ? "locked" : "unlocked";
   $("door-status").textContent = doorLocked ? "LOCKED" : "UNLOCKED";
-  $("door-sub").textContent = doorLocked ? "Your door is secure." : "Door is open (demo).";
+  $("door-sub").textContent = doorLocked ? "Your door is secure." : "Door is open.";
   $("open-btn").disabled = busy || !doorLocked;
   $("lock-btn").disabled = busy || doorLocked;
 }
 
 function renderConnection() {
   const online = DeviceAPI.simulatedOnline;
-  const label = online ? "Pi Online (simulated)" : "Pi Offline (simulated)";
+  const label = online ? "Pi Online" : "Pi Offline";
 
   $("conn-pill").className = "pill " + (online ? "pill-online" : "pill-offline");
   $("conn-pill-text").textContent = label;
-  $("home-pi").textContent = online ? "Online (simulated)" : "Offline (simulated)";
+  $("home-pi").textContent = online ? "Online" : "Offline";
 
   $("device-pill").className = "pill " + (online ? "pill-online" : "pill-offline");
   $("device-pill").innerHTML = '<span class="dot"></span>' + (online ? "Online" : "Offline");
@@ -176,7 +176,7 @@ async function handleOpen() {
     doorLocked = false;
     safeSet(CONFIG.STORAGE_KEY_DOOR, doorLocked);
     addHistory("open");
-    toast("Door unlocked (demo mode)", "success");
+    toast("Door unlocked ", "success");
   } catch (err) {
     toast(err.message, "error");
   } finally {
@@ -195,7 +195,7 @@ async function handleLock() {
     doorLocked = true;
     safeSet(CONFIG.STORAGE_KEY_DOOR, doorLocked);
     addHistory("lock");
-    toast("Door locked (demo mode)", "success");
+    toast("Door locked ", "success");
   } catch (err) {
     toast(err.message, "error");
   } finally {
@@ -211,7 +211,7 @@ async function handleCheck() {
   try {
     const ok = await DeviceAPI.checkConnection();
     lastChecked = Date.now();
-    toast(ok ? "Pi reachable (simulated)" : "Pi not reachable (simulated)", ok ? "success" : "error");
+    toast(ok ? "Pi reachable" : "Pi not reachable", ok ? "success" : "error");
   } finally {
     btn.disabled = false;
     btn.textContent = "Check Connection";
